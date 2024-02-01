@@ -16,7 +16,7 @@ let processedCodes = new Set();
 passport.use(new SpotifyStrategy({
   clientID: process.env.SPOTIFY_CLIENT_ID,
   clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-  callbackURL: 'http://localhost:3000/callback'
+  callbackURL: 'https://65bc28a57be3c90008a8759c--stunning-empanada-406fc9.netlify.app/callback'
 }, (accessToken, refreshToken, expires_in, profile, done) => {
   done(null, profile);
 }));
