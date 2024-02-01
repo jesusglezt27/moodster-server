@@ -21,6 +21,11 @@ passport.use(new SpotifyStrategy({
   done(null, profile);
 }));
 
+app.get('/', (req, res) => {
+  console.log(req);
+  return res.status(234).send('Server online');
+});
+
 app.get('/login', passport.authenticate('spotify', {
   scope: ['user-read-email', 'user-read-private', 'playlist-modify-public', 'playlist-modify-private', 'user-top-read'],
   showDialog: true
