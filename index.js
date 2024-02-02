@@ -4,7 +4,6 @@ const passport = require('passport');
 const SpotifyStrategy = require('passport-spotify').Strategy;
 const axios = require('axios');
 require('dotenv').config();
-
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -16,7 +15,7 @@ let processedCodes = new Set();
 passport.use(new SpotifyStrategy({
   clientID: process.env.SPOTIFY_CLIENT_ID,
   clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-  callbackURL: 'https://65bc5ae99e29532406cabf03--stunning-empanada-406fc9.netlify.app/callback'
+  callbackURL: 'https://moodster.netlify.app/callback'
 }, (accessToken, refreshToken, expires_in, profile, done) => {
   done(null, profile);
 }));
