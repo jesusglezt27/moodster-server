@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/login', passport.authenticate('spotify', {
-  scope: ['user-read-email', 'user-read-private', 'playlist-modify-public', 'playlist-modify-private', 'user-top-read'],
+  scope: ['user-library-read','user-read-playback-state','user-modify-playback-state','streaming','user-read-email', 'user-read-private', 'playlist-modify-public', 'playlist-modify-private', 'user-top-read'],
   showDialog: true
 }));
 
@@ -76,7 +76,7 @@ app.get('/callback', passport.authenticate('spotify', { failureRedirect: '/login
 
 // Endpoint para crear una playlist y obtener recomendaciones de Spotify
 app.post('/create_playlist', async (req, res) => {
-  console.log("Datos recibidos para crear playlist:", req.body);  
+  console.log("Recibiendo solicitud de creación de playlist con:", req.body);
   const { userId, currentMood, desiredMood, artistsToUse, accessToken } = req.body;
 
   // Validar la entrada
@@ -106,7 +106,7 @@ app.post('/create_playlist', async (req, res) => {
       }, {
           headers: { 'Authorization': `Bearer ${accessToken}` }
       });
-
+      console.log("Playlist creada con éxito. ID:", playlistId, "URL:", `https://open.spotify.com/playlist/${playlistId}`);
       res.json({
           playlistId: playlistId,
           message: 'Playlist creada con éxito',
@@ -225,7 +225,7 @@ function interpolateMoodParams(currentMoodParams, desiredMoodParams, weight) {
 }
 
 async function getSpotifyRecommendations(moodParams, selectedArtists, genres, accessToken) {
-  console.log("Solicitando recomendaciones a Spotify con:", moodParams, "y géneros:", genres);
+  console.log("Solicitando recomendaciones de Spotify con parámetros:", moodParams, "Artistas:", selectedArtists, "Géneros:", genres);
   try {
     const response = await axios.get('https://api.spotify.com/v1/recommendations', {
       headers: { 'Authorization': `Bearer ${accessToken}` },
