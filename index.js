@@ -113,8 +113,8 @@ app.post('/create_playlist', async (req, res) => {
           playlistUrl: `https://open.spotify.com/playlist/${playlistId}`
       });
   } catch (error) {
-      console.error('Error al crear playlist:', error);
-      res.status(500).send('Error interno del servidor');
+    console.error('Error al crear playlist', error.response ? error.response.data : error);
+    res.status(500).send('Error interno del servidor');
   }
 });
 
