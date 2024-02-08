@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/login', passport.authenticate('spotify', {
-  scope: ['user-library-read','user-read-playback-state','user-modify-playback-state','streaming','user-read-email', 'user-read-private', 'playlist-modify-public', 'playlist-modify-private', 'user-top-read'],
+  scope: ['ugc-image-upload','user-library-read','user-read-playback-state','user-modify-playback-state','streaming','user-read-email', 'user-read-private', 'playlist-modify-public', 'playlist-modify-private', 'user-top-read'],
   showDialog: true
 }));
 
@@ -89,7 +89,7 @@ app.post('/create_playlist', async (req, res) => {
       const playlistName = `Playlist from ${currentMood} to ${desiredMood}`;
       const playlistResponse = await axios.post(`https://api.spotify.com/v1/users/${userId}/playlists`, {
           name: playlistName,
-          description: `Playlist personalizada desde ${currentMood} a ${desiredMood}`,
+          description: `Customized Playlist from MOODSTER`,
           public: false
       }, {
           headers: { 'Authorization': `Bearer ${accessToken}` }
@@ -133,7 +133,7 @@ app.get('/get_playlist_info', (req, res) => {
 // Función para obtener pistas de transición
 async function getTransitionTracks(currentMood, desiredMood, selectedArtists, accessToken) {
   const moodMapping = {
-    'Feliz': {
+    'Happy': {
       valence: 1,
       energy: 1,
       danceability: 1,
@@ -141,7 +141,7 @@ async function getTransitionTracks(currentMood, desiredMood, selectedArtists, ac
       instrumentalness: 0.05,
       tempo: 160 
     },
-    'Triste': {
+    'Sad': {
       valence: 0.1,
       energy: 0.2,
       danceability: 0.1,
@@ -149,7 +149,7 @@ async function getTransitionTracks(currentMood, desiredMood, selectedArtists, ac
       instrumentalness: 0.2,
       tempo: 40 
     },
-    'Energético': {
+    'Energetic': {
       valence: 0.7,
       energy: 0.9,
       danceability: 0.8,
@@ -157,7 +157,7 @@ async function getTransitionTracks(currentMood, desiredMood, selectedArtists, ac
       instrumentalness: 0.1,
       tempo: 140 
     },
-    'Relajado': {
+    'Relaxed': {
       valence: 0.5,
       energy: 0.4,
       danceability: 0.4,
@@ -165,7 +165,7 @@ async function getTransitionTracks(currentMood, desiredMood, selectedArtists, ac
       instrumentalness: 0.3,
       tempo: 90 
     },
-    'Enojado': {
+    'Angry': {
       valence: 0.3,
       energy: 0.7,
       danceability: 0.5,
@@ -176,11 +176,11 @@ async function getTransitionTracks(currentMood, desiredMood, selectedArtists, ac
   }
 
   const moodToGenreMapping = {
-    'Feliz': ['pop', 'dance', 'happy'],
-    'Triste': ['sad', 'acoustic', 'rainy-day'],
-    'Energético': ['work-out', 'electronic', 'house'],
-    'Relajado': ['chill', 'ambient', 'acoustic'],
-    'Enojado': ['rock', 'metal', 'hard-rock']
+    'Happy': ['pop', 'dance', 'happy'],
+    'Sad': ['sad', 'acoustic', 'rainy-day'],
+    'Energetic': ['work-out', 'electronic', 'house'],
+    'Relaxed': ['chill', 'ambient', 'acoustic'],
+    'Angry': ['rock', 'metal', 'hard-rock']
   };
   
   let currentMoodParams = moodMapping[currentMood];
